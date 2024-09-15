@@ -9,7 +9,7 @@ from constructs import Construct
 
 class WebAppStack(Stack):
 
-    def _init_(self, scope: Construct, id: str, **kwargs) -> None:
+    def __init__(self, scope: Construct, id: str, **kwargs) -> None:  # Constructor corregido
         # Configuración del DefaultStackSynthesizer
         synthesizer = DefaultStackSynthesizer(
             file_assets_bucket_name="pruebaluis1223",
@@ -20,7 +20,7 @@ class WebAppStack(Stack):
             image_asset_publishing_role_arn="arn:aws:iam::711397755029:role/LabRole"
         )
 
-        super()._init_(scope, id, synthesizer=synthesizer, **kwargs)
+        super().__init__(scope, id, synthesizer=synthesizer, **kwargs)
 
         # Configuración de recursos AWS
         vpc = ec2.Vpc.from_lookup(self, "ExistingVpc", vpc_id="vpc-0bb0e5149780c8b1e")
@@ -46,11 +46,11 @@ class WebAppStack(Stack):
         user_data_commands = [
             "apt-get update -y",
             "apt-get install -y git",
-            "git clone https://github.com/Luis23345432/websimple.git",
-            "git clone https://github.com/Luis23345432/webplantilla.git",
-            "cd web-simple",
+            "git clone https://github.com/Luis23345432/websimple.git",  # Verifica que el nombre coincida con el directorio
+            "git clone https://github.com/Luis23345432/webplantilla.git",  # Verifica que el nombre coincida con el directorio
+            "cd websimple",  # Cambiado para coincidir con el repositorio clonado
             "nohup python3 -m http.server 8001 &",
-            "cd ../web-plantilla",
+            "cd ../webplantilla",  # Cambiado para coincidir con el repositorio clonado
             "nohup python3 -m http.server 8002 &"
         ]
 
